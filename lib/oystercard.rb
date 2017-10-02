@@ -3,11 +3,11 @@ class Oystercard
   attr_reader :balance
 
   def initialize
-    balance = DEFAULT_BALANCE
+    @balance = 0
   end
 
-  private
+  def top_up(amount)
+    @balance += amount
+  end
 
-  DEFAULT_BALANCE = 0
-
-end  
+end
