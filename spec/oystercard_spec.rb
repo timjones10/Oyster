@@ -62,4 +62,12 @@ describe Oystercard do
     end
   end
 
+    it 'deducts the minimum fare from the card' do
+      min_bal = Oystercard::MINIMUM_BALANCE
+      oyster.top_up(min_bal)
+      oyster.touch_in
+      expect {oyster.touch_out}.to change{oyster.balance}.by(-1)
+    end
+
+
 end
