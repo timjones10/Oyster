@@ -36,7 +36,20 @@ describe Oystercard do
     it "reports the status of the card depending on touch_in and touch_out" do
       expect(oyster.in_journey?).to eq false
     end
+end
+
+  describe '#touch_in' do
+    it "updates the in_journey status of the card" do
+    oyster.touch_in
+    expect(oyster.in_journey?).to eq true
+  end
   end
 
+  describe 'touch_out' do
+    it 'updates the in_journey status of the card' do
+      oyster.touch_out
+      expect(oyster.in_journey?).to eq false
+    end
+  end
 
 end
