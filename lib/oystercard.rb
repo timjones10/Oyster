@@ -17,17 +17,13 @@ class Oystercard
     @balance += amount
   end
 
-  def deduct(amount)
-    @balance -= amount
-  end
-
   def touch_in
     fail "not enough balance" if balance < MINIMUM_BALANCE # balance in this line is not a variable - it is a method calling the value of @balance through the attr_reader
     @in_journey = true
   end
 
   def touch_out
-    @balance -= MINIMUM_FARE
+    deduct(MINIMUM_FARE)
     @in_journey = false
   end
 
@@ -35,5 +31,10 @@ class Oystercard
     @in_journey
   end
 
+private
+
+  def deduct(amount)
+    @balance -= amount
+  end
 
 end

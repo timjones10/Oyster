@@ -24,13 +24,13 @@ describe Oystercard do
     end
   end
 
-  describe '#deduct' do
-
-    it 'decrease the balance by the amount' do
-      oyster.top_up(2)
-      expect { oyster.deduct(1) }.to change { oyster.balance }.by -1
-    end
-  end
+  # describe '#deduct' do
+  #
+  #   it 'decrease the balance by the amount' do
+  #     oyster.top_up(2)
+  #     expect { oyster.deduct(1) }.to change { oyster.balance }.by -1
+  #   end
+  # end
 
   describe "#in_journey? tests" do
     it "reports the status of the card depending on touch_in and touch_out" do
