@@ -3,6 +3,7 @@ require "oystercard"
 describe Oystercard do
 
   subject(:oyster) { described_class.new }
+  let(:entry_station) {double :entry_station}
 
   describe '#balance' do
 
@@ -43,12 +44,19 @@ describe Oystercard do
     it "updates the in_journey status of the card" do
       min_bal = Oystercard::MINIMUM_BALANCE
       oyster.top_up(min_bal)
-      oyster.touch_in
+      oyster.touch_in(entry_station)
       expect(oyster.in_journey?).to eq true
       # expect(oyster).to be_in_journey
     end
     it "raises an error if balance is below minimum balance" do
-      expect {oyster.touch_in}.to raise_error "not enough balance"
+      expect {oyster.touch_in((entry_station))}.to raise_error "not enough balance"
+    end
+    it "records your entry station when you touch in" do
+      min_bal = Oystercard::MINIMUM_BALANCE
+      oyster.top_up(min_bal)
+      oyster.touch_in(entry_station)
+      expect(oyster.entry_station).to eq entry_station
+      # expect(oyster.touch_in(entry_station)).to eq  oyster.entry_station
     end
   end
 
@@ -56,18 +64,18 @@ describe Oystercard do
     it 'updates the in_journey status of the card' do
       min_bal = Oystercard::MINIMUM_BALANCE
       oyster.top_up(min_bal)
-      oyster.touch_in
+      oyster.touch_in(entry_station)
       oyster.touch_out
       expect(oyster.in_journey?).to eq false
     end
   end
 
-    it 'deducts the minimum fare from the card' do
-      min_bal = Oystercard::MINIMUM_BALANCE
-      oyster.top_up(min_bal)
-      oyster.touch_in
-      expect {oyster.touch_out}.to change{oyster.balance}.by(-1)
-    end
+  it 'deducts the minimum fare from the card' do
+    min_bal = Oystercard::MINIMUM_BALANCE
+    oyster.top_up(min_bal)
+    oyster.touch_in(entry_station)
+    expect {oyster.touch_out}.to change{oyster.balance}.by(-1)
+  end
 
 
 end
