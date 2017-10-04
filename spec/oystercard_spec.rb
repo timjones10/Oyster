@@ -34,19 +34,29 @@ describe Oystercard do
 
   describe "#in_journey? tests" do
     it "reports the status of the card depending on touch_in and touch_out" do
-      expect(oyster.in_journey?).to eq false
+      expect(oyster).not_to be_in_journey
+      # expect(oyster.in_journey?).to eq false
     end
-end
+  end
 
   describe '#touch_in' do
     it "updates the in_journey status of the card" do
-    oyster.touch_in
-    expect(oyster.in_journey?).to eq true
-  end
+      min_bal = Oystercard::MINIMUM_BALANCE
+      oyster.top_up(min_bal)
+      oyster.touch_in
+      expect(oyster.in_journey?).to eq true
+      # expect(oyster).to be_in_journey
+    end
+    it "raises an error if balance is below minimum balance" do
+      expect {oyster.touch_in}.to raise_error "not enough balance"
+    end
   end
 
   describe 'touch_out' do
     it 'updates the in_journey status of the card' do
+      min_bal = Oystercard::MINIMUM_BALANCE
+      oyster.top_up(min_bal)
+      oyster.touch_in
       oyster.touch_out
       expect(oyster.in_journey?).to eq false
     end
