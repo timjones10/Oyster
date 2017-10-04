@@ -19,7 +19,7 @@ class Oystercard
 
   def touch_in(entry_station)
     fail "not enough balance" if balance < MINIMUM_BALANCE # balance in this line is not a variable - it is a method calling the value of @balance through the attr_reader
-    # @in_journey = true
+    @in_journey = true
     @entry_station = entry_station
   end
 
@@ -30,7 +30,8 @@ class Oystercard
   end
 
   def in_journey?
-    !@entry_station.nil?
+    # !@entry_station.nil?
+    !!entry_station
   end
 
   private
