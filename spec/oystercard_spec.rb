@@ -32,4 +32,11 @@ describe Oystercard do
     end
   end
 
+  describe "#in_journey? tests" do
+    it "reports the status of the card depending on touch_in and touch_out" do
+      expect(oyster.in_journey?).to eq false
+    end
+  end
+
+
 end
