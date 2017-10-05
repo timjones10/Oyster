@@ -1,6 +1,7 @@
 class Oystercard
 
-  attr_reader :balance, :entry_station
+  attr_reader :balance, :journey, :journeys
+
 
   DEFAULT_BALANCE = 0
   MAXIMUM_BALANCE = 90
@@ -9,7 +10,8 @@ class Oystercard
 
   def initialize
     @balance = DEFAULT_BALANCE
-    # @in_journey = false
+    @journeys = []
+    @journey = {}
   end
 
   def top_up(amount)
@@ -18,20 +20,20 @@ class Oystercard
   end
 
   def touch_in(entry_station)
-    fail "not enough balance" if balance < MINIMUM_BALANCE # balance in this line is not a variable - it is a method calling the value of @balance through the attr_reader
+    fail "not enough balance" if balance < MINIMUM_BALANCE
+    @journey[:entry_station] = entry_station
     @in_journey = true
-    @entry_station = entry_station
   end
 
-  def touch_out
+  def touch_out(exit_station)
     deduct(MINIMUM_FARE)
-    # @in_journey = false
-    @entry_station = nil
+    @journey[:exit_station] = exit_station
+    @journeys << @journey
+    @in_journey = false
   end
 
   def in_journey?
-    # !@entry_station.nil?
-    !!entry_station
+    @in_journey
   end
 
   private

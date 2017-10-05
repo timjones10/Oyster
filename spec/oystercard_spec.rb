@@ -4,6 +4,7 @@ describe Oystercard do
 
   subject(:oyster) { described_class.new }
   let(:entry_station) {double :entry_station}
+  let(:exit_station) {double :exit_station}
 
   describe '#balance' do
 
@@ -51,12 +52,12 @@ describe Oystercard do
     it "raises an error if balance is below minimum balance" do
       expect {oyster.touch_in((entry_station))}.to raise_error "not enough balance"
     end
+
     it "records your entry station when you touch in" do
       min_bal = Oystercard::MINIMUM_BALANCE
       oyster.top_up(min_bal)
       oyster.touch_in(entry_station)
-      expect(oyster.entry_station).to eq entry_station
-      # expect(oyster.touch_in(entry_station)).to eq  oyster.entry_station
+      expect(oyster.journey).to eq ({:entry_station => entry_station})
     end
   end
 
@@ -65,7 +66,7 @@ describe Oystercard do
       min_bal = Oystercard::MINIMUM_BALANCE
       oyster.top_up(min_bal)
       oyster.touch_in(entry_station)
-      oyster.touch_out
+      oyster.touch_out(exit_station)
       expect(oyster.in_journey?).to eq false
     end
   end
@@ -74,8 +75,21 @@ describe Oystercard do
     min_bal = Oystercard::MINIMUM_BALANCE
     oyster.top_up(min_bal)
     oyster.touch_in(entry_station)
-    expect {oyster.touch_out}.to change{oyster.balance}.by(-1)
+    expect {oyster.touch_out(exit_station)}.to change{oyster.balance}.by(-1)
   end
 
 
+  let (:journey) {{entry_station: entry_station, exit_station: exit_station}}
+
+  it 'adds entry_station and exit_station to a journey_list on touch out' do
+    min_bal = Oystercard::MINIMUM_BALANCE
+    oyster.top_up(min_bal)
+    oyster.touch_in(entry_station)
+    oyster.touch_out(exit_station)
+    expect(oyster.journeys).to include journey
+  end
+
+  it 'creates an empty hash on initialization' do
+  expect(oyster.journeys).to eq ([])
+  end
 end
