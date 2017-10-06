@@ -1,8 +1,8 @@
 class Oystercard
 
-  attr_reader :balance, :journey, :journeys
+  attr_reader :balance, :journey, :journey_histories
 
- 
+
   DEFAULT_BALANCE = 0
   MAXIMUM_BALANCE = 90
   MINIMUM_BALANCE = 1
@@ -10,7 +10,7 @@ class Oystercard
 
   def initialize
     @balance = DEFAULT_BALANCE
-    @journeys = [] # to become journey_histories
+    @journey_histories = [] # to become journey_histories
     @journey = {}
   end
 
@@ -28,8 +28,12 @@ class Oystercard
   def touch_out(exit_station)
     deduct(MINIMUM_FARE)
     @journey[:exit_station] = exit_station
-    @journeys << @journey
+    # @journeys << @journey
     @in_journey = false
+  end
+
+  def journey_histories(journey_object)
+    @journey_histories << journey_object.single_journey
   end
 
   def in_journey?

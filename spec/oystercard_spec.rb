@@ -1,10 +1,12 @@
 require "oystercard"
+require "journey"
 
 describe Oystercard do
- 
+
   subject(:oyster) { described_class.new }
   let(:entry_station) {double :entry_station}
   let(:exit_station) {double :exit_station}
+
 
   describe '#balance' do
 
@@ -78,17 +80,29 @@ describe Oystercard do
   end
 
 
-  let (:journey) {{entry_station: entry_station, exit_station: exit_station}}
+  # let (:journey) {{entry_station: entry_station, exit_station: exit_station}}
+  #
+  # it 'adds entry_station and exit_station to a journey_list on touch out' do
+  #   min_bal = Oystercard::MINIMUM_BALANCE
+  #   oyster.top_up(min_bal)
+  #   oyster.touch_in(entry_station)
+  #   oyster.touch_out(exit_station)
+  #   expect(oyster.journeys).to include journey
+  # end
 
-  it 'adds entry_station and exit_station to a journey_list on touch out' do
-    min_bal = Oystercard::MINIMUM_BALANCE
-    oyster.top_up(min_bal)
-    oyster.touch_in(entry_station)
-    oyster.touch_out(exit_station)
-    expect(oyster.journeys).to include journey
+  it 'creates an empty array on initialization' do
+    test_journey = Journey.new("Peckham")
+    expect(oyster.journey_histories(test_journey)).to eq ([{}])
   end
 
-  it 'creates an empty hash on initialization' do
-  expect(oyster.journeys).to eq ([])
+  describe 'journey_histories' do
+    it 'adds the hash stored in the journey object to journey histories variable' do
+      test_journey = Journey.new("Peckham")
+      test_journey.start_journey
+      test_journey.finish_journey("Shoreditch")
+      p test_journey.single_journey
+      expect(oyster.journey_histories(test_journey)).to eq([{entry_station: "Peckham", exit_station: "Shoreditch" }])
+    end
   end
+
 end
