@@ -89,13 +89,13 @@ describe Oystercard do
 
   # let (:journey) {{entry_station: entry_station, exit_station: exit_station}}
   #
-  # it 'adds entry_station and exit_station to a journey_list on touch out' do
-  #   min_bal = Oystercard::MINIMUM_BALANCE
-  #   oyster.top_up(min_bal)
-  #   oyster.touch_in(entry_station)
-  #   oyster.touch_out(exit_station)
-  #   expect(oyster.journeys).to include journey
-  # end
+  it 'adds entry_station and exit_station to a journey_list on touch out' do
+    min_bal = Oystercard::MINIMUM_BALANCE
+    oyster.top_up(min_bal)
+    oyster.touch_in("Kent")
+    oyster.touch_out("Middle Earth")
+    expect(oyster.journey_history).to include ({entry_station:"Kent", exit_station: "Middle Earth"})
+  end
 
   it 'creates an empty array on initialization' do
     test_journey = Journey.new("Peckham")

@@ -27,7 +27,7 @@ end
 
   describe "start_journey" do
 
-require 'oystercard'
+    require 'oystercard'
 
     it 'start_journey updates the single journey variable with the entry station' do
       oc = Oystercard.new
@@ -37,6 +37,18 @@ require 'oystercard'
     end
   end
 
+  describe "finish_journey" do
+
+    require 'oystercard'
+
+    it 'finish_journey updates the single journey variable with the exit_station' do
+      oc = Oystercard.new
+      oc.create_journey("Tooting Bec")
+      oc.touch_out("Narnia")
+      expect(oc.journey.single_journey).to eq({entry_station: "Tooting Bec", exit_station: "Narnia"})
+    end
+
+  end
   describe "finish_journey" do
 
     subject(:journey) { described_class.new("Peckham") }
