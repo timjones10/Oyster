@@ -1,10 +1,12 @@
 require "journey"
-
+#require 'o'
 describe Journey do
 
-subject(:journey) { described_class.new("Peckham") }
+ # subject(:journey) { described_class.new("Peckham") }
 
  describe "instance variables" do
+
+   subject(:journey) { described_class.new("Peckham") }
 
   it 'initializes with an entry_station as an argument' do
   expect(journey.entry_station).to eq "Peckham"
@@ -25,13 +27,19 @@ end
 
   describe "start_journey" do
 
+require 'oystercard'
+
     it 'start_journey updates the single journey variable with the entry station' do
-      journey.start_journey
-      expect(journey.single_journey).to eq({entry_station: "Peckham"})
+      oc = Oystercard.new
+      oc.create_journey("Tooting Bec")
+      # journey.start_journey
+      expect(oc.journey.single_journey).to eq({entry_station: "Tooting Bec"})
     end
   end
 
   describe "finish_journey" do
+
+    subject(:journey) { described_class.new("Peckham") }
 
     it 'finish_journey updates the single_journey variablle with the exit station' do
       exit_station = "Shoreditch"
