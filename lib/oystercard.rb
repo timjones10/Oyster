@@ -34,7 +34,7 @@ class Oystercard
 
   def touch_out(exit_station)
     deduct(MINIMUM_FARE)
-    @journey[:exit_station] = exit_station
+    # @journey[:exit_station] = exit_station
     # @journeys << @journey
     @in_journey = false
   end
