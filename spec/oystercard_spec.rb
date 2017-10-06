@@ -10,7 +10,6 @@ describe Oystercard do
 
     it 'checks that the default balance is 0' do
       expect(oyster.balance).to eq 0
-
     end
   end
 

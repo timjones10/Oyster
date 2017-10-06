@@ -10,7 +10,7 @@ class Oystercard
 
   def initialize
     @balance = DEFAULT_BALANCE
-    @journeys = []
+    @journeys = [] # to become journey_histories
     @journey = {}
   end
 
